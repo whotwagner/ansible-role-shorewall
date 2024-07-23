@@ -2,10 +2,8 @@
 
 - name: install > Packages
   apt:
-    name:  "{{ item }}"
     state: present
-  with_items:
-    - shorewall
+    pkg: shorewall
 
 - name: enable startup at boot
   lineinfile: >

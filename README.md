@@ -32,12 +32,12 @@ git clone https://github.com/whotwagner/ansible-role-shorewall.git
       zones:
         - { name: inet, 
             type: ipv4,
-            interface: { name: $INETIF, broadcast: detect, options: "blacklist,routeback,nosmurfs" }
+            interface: { name: $INETIF, broadcast: detect, options: "routeback,nosmurfs" }
           }
         - { 
             name: lan, 
             type: ipv4,
-            interface: { name: $LANIF, broadcast: detect, options: "blacklist,routeback,bridge,nosmurfs" }
+            interface: { name: $LANIF, broadcast: detect, options: "routeback,bridge,nosmurfs" }
           }
       policy:
         - { source: fw,    dest: all,   policy: ACCEPT }
@@ -54,8 +54,8 @@ git clone https://github.com/whotwagner/ansible-role-shorewall.git
         - { action: ACCEPT,      source: inet, dest: fw, proto: tcp, dest_port: "443,8006" }
         - PING Rules
         - { action: Ping/ACCEPT, source: all, dest: all }
-      masq:
-        - { interface: $INETIF, source: 192.168.213.0/24 }
+      snat:
+        - { dest: $INETIF, source: 192.168.213.0/24 }
       params:
         - Interfaces
         - { name: INETIF, value: eth0 }
@@ -74,12 +74,12 @@ git clone https://github.com/whotwagner/ansible-role-shorewall.git
         - { name: vpn, type: ipv4 }
         - { name: inet, 
             type: ipv4,
-            interface: { name: $INETIF, broadcast: detect, options: "blacklist,routeback,nosmurfs" }
+            interface: { name: $INETIF, broadcast: detect, options: "routeback,nosmurfs" }
           }
         - { 
             name: lan, 
             type: ipv4,
-            interface: { name: $LANIF, broadcast: detect, options: "blacklist,routeback,bridge,nosmurfs" }
+            interface: { name: $LANIF, broadcast: detect, options: "routeback,bridge,nosmurfs" }
           }
       policy:
         - { source: fw,    dest: all,   policy: ACCEPT }
@@ -96,8 +96,8 @@ git clone https://github.com/whotwagner/ansible-role-shorewall.git
         - { action: SSH/ACCEPT,  source: inet, dest: fw }
         - PING Rules
         - { action: Ping/ACCEPT, source: all, dest: all }
-      masq:
-        - { interface: $INETIF, source: 192.168.213.0/24 }
+      snat:
+        - { dest: $INETIF, source: 192.168.213.0/24 }
       params:
         - Interfaces
         - { name: INETIF, value: eth0 }
@@ -107,7 +107,7 @@ git clone https://github.com/whotwagner/ansible-role-shorewall.git
         - { name: VPNNET, value: "10.10.111.0/24" } 
       hosts:
         - Test
-        - { zone: vpn, host: $OVPNIF:$VPNNET, options: "blacklist" }
+        - { zone: vpn, host: $OVPNIF:$VPNNET, options: "" }
       tunnels:
         - OpenVPN-Tunnel:
         - { type: "openvpn:1194", zone: ovpn, gateway: "0.0.0.0/0" }
@@ -122,12 +122,12 @@ shorewall6_configs:
       zones:
         - { name: inet, 
             type: ipv6,
-            interface: { name: $INETIF, broadcast: detect, options: "blacklist,routeback,nosmurfs" }
+            interface: { name: $INETIF, broadcast: detect, options: "routeback,nosmurfs" }
           }
         - { 
             name: lan, 
             type: ipv6,
-            interface: { name: $LANIF, broadcast: detect, options: "blacklist,routeback,bridge,nosmurfs" }
+            interface: { name: $LANIF, broadcast: detect, options: "routeback,bridge,nosmurfs" }
           }
       policy:
         - { source: fw,    dest: all,   policy: ACCEPT }
@@ -158,6 +158,6 @@ MIT
 
 # Author information
 
-TOSCOM [**(http://www.toscom.at/)**](http://www.toscom.at)
+Wolfgang Hotwagner
 
 Author of the forked Project: ELAO [**(http://www.elao.com/)**](http://www.elao.com)

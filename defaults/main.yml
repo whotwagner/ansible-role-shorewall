@@ -6,4 +6,5 @@ shorewall_ipforward: "On"
 shorewall_configs_dir: /etc/shorewall
 shorewall6_configs_dir: /etc/shorewall6
 shorewall_configs:     []
-shorewall6_configs:    false
+shorewall6_enable: False
+shorewall6_configs:    []

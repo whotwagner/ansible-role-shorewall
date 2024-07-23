@@ -8,15 +8,17 @@
     state=present
   notify:
     - shorewall6 restart
+  when: shorewall6_enable
 
 - name: shorewall6 config > Templates
 #  debug: msg="User {{ item.key }}"
   template:
     src:  "{{ item.key }}.j2"
     dest: "{{ shorewall6_configs_dir }}/{{ item.key }}"
-  with_dict: shorewall6_configs 
+  with_dict: "{{ shorewall6_configs }}"
   notify:
     - shorewall6 restart
+  when: shorewall6_enable
 
 - name: config interfaces
   template:
@@ -24,3 +26,10 @@
     dest: "{{ shorewall6_configs_dir }}/interfaces"
   notify:
     - shorewall6 restart
+  when: shorewall6_enable
+
+- name: Configure shorewall6 service autostart
+  service:
+    name:  shorewall6
+    enabled: "{{ 'yes' if shorewall_startup == 1 else 'no' }}"
+  when: shorewall6_enable

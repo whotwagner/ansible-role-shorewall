@@ -1,0 +1,14 @@
+##
+# Shorewall -- /etc/shorewall/snat
+#
+# For information about entries in this file, type "man shorewall-snat"
+#
+# See http://shorewall.net/manpages/shorewall-snat.html for more information
+#
+###########################################################################################################################################
+#ACTION			SOURCE			DEST		PROTO	PORT	IPSEC	MARK	USER	SWITCH	ORIGDEST	PROBABILITY
+{% for entry in item.value  %}
+{% if entry['dest'] is defined %}
+{{ entry['action'] | default('MASQUERADE') }}   {{entry['source'] | default('-')}}   {{entry['dest']}}   {{entry['proto'] | default('-')}} {{entry['port'] | default('-')}} {{entry['ipsec'] | default('-')}} {{entry['mark'] | default('-')}} {{entry['user'] | default('-')}} {{entry['switch'] | default('-')}} {{entry['origdest'] | default('-')}} {{entry['probability'] | default('-')}}
+{% endif %}
+{% endfor %}	

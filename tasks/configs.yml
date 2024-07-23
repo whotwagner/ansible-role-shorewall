@@ -14,7 +14,7 @@
   template:
     src:  "{{ item.key }}.j2"
     dest: "{{ shorewall_configs_dir }}/{{ item.key }}"
-  with_dict: shorewall_configs 
+  with_dict: "{{ shorewall_configs }}"
   notify:
     - shorewall restart
 
@@ -24,3 +24,8 @@
     dest: "{{ shorewall_configs_dir }}/interfaces"
   notify:
     - shorewall restart
+
+- name: Configure shorewall service autostart
+  service:
+    name:  shorewall
+    enabled: "{{ 'yes' if shorewall_startup == 1 else 'no' }}"

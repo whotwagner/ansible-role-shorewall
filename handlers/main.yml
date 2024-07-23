@@ -3,7 +3,7 @@
 - name: shorewall restart
   service:
     name:  shorewall
-    state: restarted
+    state: "{{ 'restarted' if shorewall_startup == 1 else 'stopped' }}"
 
 - name: shorewall6 restart
   service:

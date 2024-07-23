@@ -6,4 +6,5 @@
 - include_tasks: configs.yml
 
 - include_tasks: configsipv6.yml
-  when: shorewall6_configs != False
+  when: shorewall6_enable
+
